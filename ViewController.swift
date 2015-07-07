@@ -23,50 +23,58 @@ class ViewController: UIViewController {
     var ccount = 0
     var ds:[[Int]] = [[]]
     var tempp:[[Int]] = [[]]
+    var label:UILabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         var cc = 0;
-        for(var a = 50; a<275; a+=25){
-            for(var b=50; b<275; b+=25){
-                var xx:CGFloat = CGFloat(a)
-                var yy:CGFloat = CGFloat(b)
-                 var myTextField: UITextField = UITextField(frame: CGRect(x: xx, y: yy, width: 20.00, height: 20.00))
+        
+        let vWidth = self.view.bounds.width
+        println("\(vWidth)")
+        let padding = floor(vWidth/4.75)
+        let dimensions = floor(vWidth/18.75)
+        let step = floor(vWidth/75)+dimensions
+        let endpoint = (vWidth-padding)
+        println("padding:\(padding)")
+        println("dimensions:\(dimensions)")
+        println("step:\(step)")
+        println("endpoint:\(endpoint)")
+        label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+        var xx: CGFloat = 1.0
+        var yy: CGFloat = 1.0
+        for(var a = padding; a<endpoint; a+=step){
+            for(var b=padding; b<endpoint; b+=step){
+                xx = CGFloat(a)
+                yy = CGFloat(b)
+                 var myTextField: UITextField = UITextField(frame: CGRect(x: xx, y: yy, width: dimensions, height: dimensions))
                 
-                myTextField.text = "0"
+                myTextField.text = ""
                 myTextField.borderStyle = UITextBorderStyle.Line
                 myTextField.keyboardType = UIKeyboardType.NumberPad
                 self.arrayOfTextFields.append(myTextField)
                 self.view.addSubview(myTextField)
             }
         }
+        var xbutton = floor(vWidth/2)-(6*dimensions)
+        println("\(xbutton)")
+        let ybutton = yy+(2*dimensions)
         let button   = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        button.frame = CGRectMake(120, 320, 100, 50)
+        button.frame = CGRectMake(xbutton, ybutton, dimensions*5, floor(dimensions*2.5))
         button.setTitle("Solve", forState: UIControlState.Normal)
         button.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-         self.view.addSubview(button)
         
-        /*var puzzle:[[Int]]=[[0, 0, 0, 0, 0, 0, 0, 9, 0],
-            [1, 9, 0, 4, 7, 0, 6, 0, 8],
-            [0, 5, 2, 8, 1, 9, 4, 0, 7],
-            [2, 0, 0, 0, 4, 8, 0, 0, 0],
-            [0, 0, 9, 0, 0, 0, 5, 0, 0],
-            [0, 0, 0, 7, 5, 0, 0, 0, 9],
-            [9, 0, 7, 3, 6, 4, 1, 8, 0],
-            [5, 0, 6, 0, 8, 1, 0, 7, 4],
-            [0, 8, 0, 0, 0, 0, 0, 0, 0]];
-        println(puzzle)
-        var a = fillSudoku(puzzle, row: 0, col: 0)
-//        for(var jj = 0; jj<9; jj++){
-//            for(var gg = 0; gg<9; gg++){
-//                a = fillSudoku(ds, row: jj, col: gg)
-//                println(ds)
-//            }
-//        }
-        println("done")
-//        println(ds)
-//        println(ccount)
-        println(tempp)*/
+        xbutton = floor(vWidth/2)+dimensions
+        let clear   = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        clear.frame = CGRectMake(xbutton, ybutton, dimensions*5, floor(dimensions*2.5))
+        clear.setTitle("Clear", forState: UIControlState.Normal)
+        clear.addTarget(self, action: "buttonClear:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.view.addSubview(clear)
+         self.view.addSubview(button)
+        label.center = CGPointMake(160, 284)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = "IMPOSSIBLE"
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +84,8 @@ class ViewController: UIViewController {
     
     func buttonAction(sender:UIButton!)
     {
+        ccount=0
+        label.hidden = true
         var x = 0
         var y = 0
         var arrayOfInts:[Int] = []
@@ -84,15 +94,25 @@ class ViewController: UIViewController {
         for textField in arrayOfTextFields{
             if(x == 9 || count==80){
                 if(count == 80){
-                    let aaa:Int = textField.text.toInt()!
-                    arrayOfInts+=[aaa]
+                    if(textField.text == ""){
+                        arrayOfInts+=[0]
+                    }
+                    else{
+                        let aaa:Int = textField.text.toInt()!
+                        arrayOfInts+=[aaa]
+                    }
                 }
                 arrayOfArrays += [arrayOfInts]
                 arrayOfInts = []
                 x=0
             }
-            let aaa:Int = textField.text.toInt()!
-            arrayOfInts += [aaa]
+            if(textField.text == ""){
+                arrayOfInts+=[0]
+            }
+            else{
+                let aaa:Int = textField.text.toInt()!
+                arrayOfInts += [aaa]
+            }
             x++
             count++
         }
@@ -104,17 +124,31 @@ class ViewController: UIViewController {
         x = 0
         y = 0
         //Fill in texfield
-        for textField in arrayOfTextFields{
-            if(x == 8){
-                textField.text="\(tempp[y][x])"
-                y++
-                x = 0
-            }
-            else{
-                textField.text="\(tempp[y][x])"
-                x++
+        if(tempp != [[]]){
+            for textField in arrayOfTextFields{
+                if(x == 8){
+                    textField.text="\(tempp[y][x])"
+                    y++
+                    x = 0
+                }
+                else{
+                    textField.text="\(tempp[y][x])"
+                    x++
+                }
             }
         }
+        else{
+            label.hidden = false
+        }
+        
+        tempp = [[]]
+    }
+    func buttonClear(sender:UIButton!)
+    {
+        for textField in arrayOfTextFields{
+            textField.text=""
+        }
+        label.hidden=true
     }
     func isAvailable(puzzle: [[Int]], row: Int, col: Int, num: Int)->Int{
         var i: Int
@@ -137,9 +171,10 @@ class ViewController: UIViewController {
         return 1
     }
     func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->Int{
-        if(ccount > 800000){
+        if(ccount > 400000){
             println("Impossible!")
-            
+            self.view.addSubview(label)
+            label.hidden = false
             return 0
         }
         var i:Int
