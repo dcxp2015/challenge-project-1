@@ -9,33 +9,63 @@
 import UIKit
 
 class ViewController: UIViewController {
-    /*let firstLaunch = NSUserDefaults.standardUserDefaults().boolForKey("FirstLaunch")
-    if (firstLaunch)  {
-        println("Not first launch.")
-    }
-    else {
-        println("First launch, setting NSUserDefault.")
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FirstLaunch")
-    
-    }*/
     
     var arrayOfTextFields:[UITextField] = []
     var ccount = 0
     var ds:[[Int]] = [[]]
     var tempp:[[Int]] = [[]]
     var label:UILabel = UILabel()
+    var padding: CGFloat = 1.0
+    var dimensions: CGFloat = 1.0
+    var step: CGFloat = 1.0
+    var endpoint: CGFloat = 1.0
+    var vWidth: CGFloat = 1.0
+    var imageSize: CGSize = CGSize()
+    var imageView: UIImageView = UIImageView()
+    var lightordark = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        var cc = 0;
-        
-        let vWidth = self.view.bounds.width
+        vWidth = self.view.bounds.width
         println("\(vWidth)")
-        let padding = floor(vWidth/4.75)
-        let dimensions = floor(vWidth/18.75)
-        let step = floor(vWidth/75)+dimensions
-        let endpoint = (vWidth-padding)
+        padding = floor(vWidth/4.75)
+        dimensions = floor(vWidth/18.75)
+        step = floor(vWidth/75)+dimensions
+        endpoint = (vWidth-padding)
+        //Draw rectangles and fill
+        imageSize = CGSize(width: (vWidth-(padding*2)) , height: vWidth-(padding*2))
+        imageView = UIImageView(frame: CGRect(origin: CGPoint(x: padding, y: padding), size: imageSize))
+        self.view.addSubview(imageView)
+        var image = drawCustomImage(imageSize)
+        imageView.image = image
+        
+        var startx = padding+(3*step)
+        var starty = padding
+        
+        imageSize = CGSize(width: ((step*3)-(step-dimensions)) , height: ((step*9)-(step-dimensions)))
+        imageView = UIImageView(frame: CGRect(origin: CGPoint(x: startx, y: starty), size: imageSize))
+        self.view.addSubview(imageView)
+        image = drawCustomImage(imageSize)
+        imageView.image = image
+        
+        imageSize = CGSize(width: ((step*9)-((step-dimensions))) , height: ((step*3)-(step-dimensions)))
+        imageView = UIImageView(frame: CGRect(origin: CGPoint(x: starty, y: startx), size: imageSize))
+        self.view.addSubview(imageView)
+        image = drawCustomImage(imageSize)
+        imageView.image = image
+        
+        imageSize = CGSize(width: ((step*3)+(step-dimensions)) , height: ((step*3)+(step-dimensions)))
+        println((step*3)-(step-dimensions))
+        println(((step*3)-(step-dimensions)))
+        println("\(startx)   \(starty)")
+        imageView = UIImageView(frame: CGRect(origin: CGPoint(x: ((starty+(step*3))-(step-dimensions)), y: (starty+step*3)-(step-dimensions)), size: imageSize))
+        self.view.addSubview(imageView)
+        image = drawCustomImage(imageSize)
+        imageView.image = image
+
+        //Start other stuff
+        var cc = 0;
         println("padding:\(padding)")
         println("dimensions:\(dimensions)")
         println("step:\(step)")
@@ -72,9 +102,12 @@ class ViewController: UIViewController {
         
         self.view.addSubview(clear)
          self.view.addSubview(button)
-        label.center = CGPointMake(160, 284)
+        label.center = CGPointMake(((vWidth/2)), ((step*9)+padding+(2*(step-dimensions))))
         label.textAlignment = NSTextAlignment.Center
         label.text = "IMPOSSIBLE"
+        
+        var tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+        view.addGestureRecognizer(tap)
     }
 
     override func didReceiveMemoryWarning() {
@@ -171,7 +204,7 @@ class ViewController: UIViewController {
         return 1
     }
     func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->Int{
-        if(ccount > 400000){
+        if(ccount > 100000){
             println("Impossible!")
             self.view.addSubview(label)
             label.hidden = false
@@ -230,6 +263,38 @@ class ViewController: UIViewController {
             //println(tempp)
             return 1
         }
+    }
+    func drawCustomImage(size: CGSize) -> UIImage {
+        // Setup our context
+        let bounds = CGRect(origin: CGPoint.zeroPoint, size: size)
+        let opaque = false
+        let scale: CGFloat = 0
+        UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
+        let context = UIGraphicsGetCurrentContext()
+        
+        // Setup complete, do drawing here
+        var swiftColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+        if(lightordark == 0 || lightordark == 3){
+            CGContextSetStrokeColorWithColor(context,swiftColor.CGColor)
+            CGContextSetLineWidth(context, 2.0)
+            CGContextSetFillColorWithColor(context, swiftColor.CGColor)
+            lightordark = 1
+        }
+        else{
+            swiftColor = UIColor(red: 0.80, green: 0.80, blue: 0.80, alpha: 1)
+            CGContextSetStrokeColorWithColor(context,swiftColor.CGColor)
+            CGContextSetLineWidth(context, 2.0)
+            CGContextSetFillColorWithColor(context, swiftColor.CGColor)
+            lightordark++
+        }
+        CGContextStrokeRect(context, bounds)
+        CGContextFillRect(context, bounds)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    func DismissKeyboard(){
+        self.view.endEditing(true)
     }
 }
 
