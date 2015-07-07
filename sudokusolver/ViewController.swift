@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIScrollViewDelegate {
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var myView: UIView!
     
     var arrayOfTextFields:[UITextField] = []
     var ccount = 0
@@ -26,7 +28,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 2
+        scrollView.delegate = self
+        
         // Do any additional setup after loading the view, typically from a nib.
+        setupGestureRecognizer()
         vWidth = self.view.bounds.width
         println("\(vWidth)")
         padding = floor(vWidth/4.75)
@@ -36,7 +44,7 @@ class ViewController: UIViewController {
         //Draw rectangles and fill
         imageSize = CGSize(width: (vWidth-(padding*2)) , height: vWidth-(padding*2))
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: padding, y: padding), size: imageSize))
-        self.view.addSubview(imageView)
+        myView.addSubview(imageView)
         var image = drawCustomImage(imageSize)
         imageView.image = image
         
@@ -45,13 +53,13 @@ class ViewController: UIViewController {
         
         imageSize = CGSize(width: ((step*3)-(step-dimensions)) , height: ((step*9)-(step-dimensions)))
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: startx, y: starty), size: imageSize))
-        self.view.addSubview(imageView)
+        myView.addSubview(imageView)
         image = drawCustomImage(imageSize)
         imageView.image = image
         
         imageSize = CGSize(width: ((step*9)-((step-dimensions))) , height: ((step*3)-(step-dimensions)))
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: starty, y: startx), size: imageSize))
-        self.view.addSubview(imageView)
+        myView.addSubview(imageView)
         image = drawCustomImage(imageSize)
         imageView.image = image
         
@@ -60,7 +68,7 @@ class ViewController: UIViewController {
         println(((step*3)-(step-dimensions)))
         println("\(startx)   \(starty)")
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: ((starty+(step*3))-(step-dimensions)), y: (starty+step*3)-(step-dimensions)), size: imageSize))
-        self.view.addSubview(imageView)
+        myView.addSubview(imageView)
         image = drawCustomImage(imageSize)
         imageView.image = image
 
@@ -83,7 +91,7 @@ class ViewController: UIViewController {
                 myTextField.borderStyle = UITextBorderStyle.Line
                 myTextField.keyboardType = UIKeyboardType.NumberPad
                 self.arrayOfTextFields.append(myTextField)
-                self.view.addSubview(myTextField)
+                myView.addSubview(myTextField)
             }
         }
         var xbutton = floor(vWidth/2)-(6*dimensions)
@@ -100,14 +108,19 @@ class ViewController: UIViewController {
         clear.setTitle("Clear", forState: UIControlState.Normal)
         clear.addTarget(self, action: "buttonClear:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.view.addSubview(clear)
-         self.view.addSubview(button)
+        myView.addSubview(clear)
+        myView.addSubview(button)
         label.center = CGPointMake(((vWidth/2)), ((step*9)+padding+(2*(step-dimensions))))
         label.textAlignment = NSTextAlignment.Center
         label.text = "IMPOSSIBLE"
         
         var tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
         view.addGestureRecognizer(tap)
+        
+        
+        view.addSubview(scrollView)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -206,7 +219,7 @@ class ViewController: UIViewController {
     func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->Int{
         if(ccount > 100000){
             println("Impossible!")
-            self.view.addSubview(label)
+            myView.addSubview(label)
             label.hidden = false
             return 0
         }
@@ -296,5 +309,25 @@ class ViewController: UIViewController {
     func DismissKeyboard(){
         self.view.endEditing(true)
     }
+    func setupGestureRecognizer() {
+        let doubleTap = UITapGestureRecognizer(target: self, action: "handleDoubleTap:")
+        doubleTap.numberOfTapsRequired = 2
+        myView.addGestureRecognizer(doubleTap)
+    }
+    
+    func handleDoubleTap(recognizer: UITapGestureRecognizer) {
+        
+        if (scrollView.zoomScale > scrollView.minimumZoomScale) {
+            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+        } else {
+            scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
+        }
+    }
+    
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return myView
+    }
+    
 }
 
