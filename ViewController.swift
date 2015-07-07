@@ -9,7 +9,20 @@
 import UIKit
 
 class ViewController: UIViewController {
+    /*let firstLaunch = NSUserDefaults.standardUserDefaults().boolForKey("FirstLaunch")
+    if (firstLaunch)  {
+        println("Not first launch.")
+    }
+    else {
+        println("First launch, setting NSUserDefault.")
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "FirstLaunch")
+    
+    }*/
+    
     var arrayOfTextFields:[UITextField] = []
+    var ccount = 0
+    var ds:[[Int]] = [[]]
+    var tempp:[[Int]] = [[]]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -32,6 +45,28 @@ class ViewController: UIViewController {
         button.setTitle("Solve", forState: UIControlState.Normal)
         button.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
          self.view.addSubview(button)
+        
+        /*var puzzle:[[Int]]=[[0, 0, 0, 0, 0, 0, 0, 9, 0],
+            [1, 9, 0, 4, 7, 0, 6, 0, 8],
+            [0, 5, 2, 8, 1, 9, 4, 0, 7],
+            [2, 0, 0, 0, 4, 8, 0, 0, 0],
+            [0, 0, 9, 0, 0, 0, 5, 0, 0],
+            [0, 0, 0, 7, 5, 0, 0, 0, 9],
+            [9, 0, 7, 3, 6, 4, 1, 8, 0],
+            [5, 0, 6, 0, 8, 1, 0, 7, 4],
+            [0, 8, 0, 0, 0, 0, 0, 0, 0]];
+        println(puzzle)
+        var a = fillSudoku(puzzle, row: 0, col: 0)
+//        for(var jj = 0; jj<9; jj++){
+//            for(var gg = 0; gg<9; gg++){
+//                a = fillSudoku(ds, row: jj, col: gg)
+//                println(ds)
+//            }
+//        }
+        println("done")
+//        println(ds)
+//        println(ccount)
+        println(tempp)*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,38 +97,59 @@ class ViewController: UIViewController {
             count++
         }
         println(arrayOfArrays)
-        
-        var a = fillSudoku(arrayOfArrays, row: 0, col: 0)
-        println("done")
-        
+        var puzzle:[[Int]]=arrayOfArrays
+
+        var a = fillSudoku(puzzle, row: 0, col: 0)
+        println(tempp)
+        x = 0
+        y = 0
+        //Fill in texfield
+        for textField in arrayOfTextFields{
+            if(x == 8){
+                textField.text="\(tempp[y][x])"
+                y++
+                x = 0
+            }
+            else{
+                textField.text="\(tempp[y][x])"
+                x++
+            }
+        }
     }
     func isAvailable(puzzle: [[Int]], row: Int, col: Int, num: Int)->Int{
-        var rowStart:Int = (row/3)*3
-        var colStart:Int = (col/3)*3
         var i: Int
         var j: Int
-        for(var i = 0; i<9; i++){
-            var puzz=puzzle[row][i]
-            if(puzz == num){
+        for(i=0; i<9; i++){
+            if((puzzle[row][i]==num) || (puzzle[i][col]==num)){
                 return 0
             }
-            puzz=puzzle[i][col]
-            if(puzz == num){
-                return 0
-            }
-            puzz=puzzle[rowStart+(i%3)][colStart+(i/3)]
-            if(puzz == num){
-                return 0
+        }
+        var rowStart:Int = (row/3)*3
+        var colStart:Int = (col/3)*3
+        
+        for(var i=rowStart; i<(rowStart+3); i++){
+            for(j=colStart; j<(colStart+3); j++){
+                if(puzzle[i][j]==num){
+                    return 0
+                }
             }
         }
         return 1
     }
-    func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->[[Int]]{
-        var tempp = puzzle
-        if(row<9 && col<9){
-            var pp = tempp[row][col]
+    func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->Int{
+        if(ccount > 800000){
+            println("Impossible!")
             
-            if(pp != 0){
+            return 0
+        }
+        var i:Int
+        ccount++
+        tempp = puzzle
+       // println("row \(row)")
+       // println("col \(col)")
+        if(row<9 && col<9){
+            var ttx = tempp[row][col] as Int
+            if(ttx != 0){
                 if((col+1)<9){
                     return fillSudoku(tempp, row: row, col: col+1)
                 }
@@ -101,43 +157,43 @@ class ViewController: UIViewController {
                     return fillSudoku(tempp, row: row+1, col: 0)
                 }
                 else{
-                    return [[]]
+                    return 1
                 }
             }
             else{
-                for(var k=0; k<9; k++){
-                    if(isAvailable(tempp, row: row, col: col, num: k+1) == 1){
-                        tempp[row][col] = (k+1)
-                        var ttm = col+1
-                        if((ttm)<9){
-                            if(fillSudoku(tempp, row: row, col: ttm) != [[]]){
-                                return tempp
+                for(i=0; i<9; i++){
+                    if(isAvailable(tempp, row: row, col: col, num: i+1)==1){
+                        tempp[row][col]=i+1
+                        if((col+1)<9){
+                            if(fillSudoku(tempp, row: row, col: col+1)==1){
+                                return 1
                             }
                             else{
                                 tempp[row][col]=0
                             }
                         }
                         else if((row+1)<9){
-                            var fswift = row+1
-                            if(fillSudoku(tempp, row: fswift, col: 0) == tempp){
-                                return tempp
+                            if(fillSudoku(tempp, row: row+1, col: 0)==1){
+                                return 1
                             }
                             else{
-                                tempp[row][col] = 0
+                                tempp[row][col]=0
                             }
                         }
                         else{
-                            return tempp
+                            return 1
                         }
                     }
                 }
             }
-            return [[]]
+           // println(tempp)
+            ds = tempp
+            return 0
         }
         else{
-            println(tempp)
-            return tempp
-            
+            println("here")
+            //println(tempp)
+            return 1
         }
     }
 }
