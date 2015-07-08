@@ -8,11 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegate {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var myView: UIView!
-    
+    @IBOutlet var myTextField: UITextView!
     var arrayOfTextFields:[UITextField] = []
+    var arraycount = 0
     var ccount = 0
     var ds:[[Int]] = [[]]
     var tempp:[[Int]] = [[]]
@@ -28,6 +29,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var swiftColor = UIColor(red: 0.71, green: 0.87, blue: 1, alpha: 1)
+        self.view.backgroundColor = swiftColor
         
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 2
@@ -92,6 +95,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 myTextField.keyboardType = UIKeyboardType.NumberPad
                 self.arrayOfTextFields.append(myTextField)
                 myView.addSubview(myTextField)
+                myTextField.delegate = self
             }
         }
         var xbutton = floor(vWidth/2)-(6*dimensions)
@@ -328,6 +332,44 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return myView
     }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        var torf: Bool = false
+        var newTextField: UITextField
+        if(textField.text == "" || string == ""){
+            var i = find(arrayOfTextFields, textField)
+            var tempps = 0
+            if(i > 71){
+                tempps = i! - 71
+                if(i==80){
+                    tempps = 0
+                }
+            }
+            else{
+                tempps = i! + 9
+            }
+            newTextField = arrayOfTextFields[tempps]
+            textField.text = string
+            textField.endEditing(true)
+            torf = true
+        }
+        else{
+            return false
+        }
+        if(newTextField == ""){
+            return true
+        }
+        else{
+            newTextField.becomeFirstResponder()
+            return false
+        }
+    }
+    func textFieldDidBeginEditing(textField: UITextField){
+        textField.text = ""
+    }
+//    optional func text(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange,replacementString string: String) -> Bool{
+//        println(textField.text)
+//    }
     
 }
 
