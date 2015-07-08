@@ -14,7 +14,6 @@
 		A6F803651B4AC596001846A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6F803641B4AC596001846A7 /* Images.xcassets */; };
 		A6F803681B4AC596001846A7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F803661B4AC596001846A7 /* LaunchScreen.xib */; };
 		A6F803741B4AC596001846A7 /* sudokusolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F803731B4AC596001846A7 /* sudokusolverTests.swift */; };
-		A6F803E01B4C19DF001846A7 /* SudokuSolver.py in Resources */ = {isa = PBXBuildFile; fileRef = A6F803DF1B4C19DF001846A7 /* SudokuSolver.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +38,6 @@
 		A6F8036D1B4AC596001846A7 /* sudokusolverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sudokusolverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F803721B4AC596001846A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6F803731B4AC596001846A7 /* sudokusolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sudokusolverTests.swift; sourceTree = "<group>"; };
-		A6F803DF1B4C19DF001846A7 /* SudokuSolver.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = SudokuSolver.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +85,6 @@
 				A6F803641B4AC596001846A7 /* Images.xcassets */,
 				A6F803661B4AC596001846A7 /* LaunchScreen.xib */,
 				A6F8035C1B4AC596001846A7 /* sudokusolver.xcdatamodeld */,
-				A6F803DF1B4C19DF001846A7 /* SudokuSolver.py */,
 				A6F803581B4AC596001846A7 /* Supporting Files */,
 			);
 			path = sudokusolver;
@@ -199,7 +196,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6F803E01B4C19DF001846A7 /* SudokuSolver.py in Resources */,
 				A6F803631B4AC596001846A7 /* Main.storyboard in Resources */,
 				A6F803681B4AC596001846A7 /* LaunchScreen.xib in Resources */,
 				A6F803651B4AC596001846A7 /* Images.xcassets in Resources */,
@@ -354,6 +350,7 @@
 				INFOPLIST_FILE = sudokusolver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

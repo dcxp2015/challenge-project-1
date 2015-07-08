@@ -39,7 +39,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
         // Do any additional setup after loading the view, typically from a nib.
         setupGestureRecognizer()
         vWidth = self.view.bounds.width
-        println("\(vWidth)")
+        
+        #if DEBUG
+            println("\(vWidth)")
+        #endif
+        
+        
         padding = floor(vWidth/4.75)
         dimensions = floor(vWidth/18.75)
         step = floor(vWidth/75)+dimensions
@@ -67,9 +72,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
         imageView.image = image
         
         imageSize = CGSize(width: ((step*3)+(step-dimensions)) , height: ((step*3)+(step-dimensions)))
-        println((step*3)-(step-dimensions))
-        println(((step*3)-(step-dimensions)))
-        println("\(startx)   \(starty)")
+        
+        #if DEBUG
+            println((step*3)-(step-dimensions))
+            println(((step*3)-(step-dimensions)))
+            println("\(startx)   \(starty)")
+        #endif
+        
         imageView = UIImageView(frame: CGRect(origin: CGPoint(x: ((starty+(step*3))-(step-dimensions)), y: (starty+step*3)-(step-dimensions)), size: imageSize))
         myView.addSubview(imageView)
         image = drawCustomImage(imageSize)
@@ -77,10 +86,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
 
         //Start other stuff
         var cc = 0;
-        println("padding:\(padding)")
-        println("dimensions:\(dimensions)")
-        println("step:\(step)")
-        println("endpoint:\(endpoint)")
+        
+        #if DEBUG
+            println("padding:\(padding)")
+            println("dimensions:\(dimensions)")
+            println("step:\(step)")
+            println("endpoint:\(endpoint)")
+        #endif
+        
         label = UILabel(frame: CGRectMake(0, 0, 200, 21))
         var xx: CGFloat = 1.0
         var yy: CGFloat = 1.0
@@ -92,14 +105,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
                 
                 myTextField.text = ""
                 myTextField.borderStyle = UITextBorderStyle.Line
-                myTextField.keyboardType = UIKeyboardType.NumberPad
+//                myTextField.keyboardType = UIKeyboardType.NumberPad
                 self.arrayOfTextFields.append(myTextField)
                 myView.addSubview(myTextField)
                 myTextField.delegate = self
             }
         }
         var xbutton = floor(vWidth/2)-(6*dimensions)
-        println("\(xbutton)")
+        
+        #if DEBUG
+            println("\(xbutton)")
+        #endif
+        
         let ybutton = yy+(2*dimensions)
         let button   = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         button.frame = CGRectMake(xbutton, ybutton, dimensions*5, floor(dimensions*2.5))
@@ -166,11 +183,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
             x++
             count++
         }
-        println(arrayOfArrays)
+        
+        
+        #if DEBUG
+            println(arrayOfArrays)
+        #endif
+        
         var puzzle:[[Int]]=arrayOfArrays
 
         var a = fillSudoku(puzzle, row: 0, col: 0)
-        println(tempp)
+       
+        #if DEBUG
+            println(tempp)
+        #endif
+        
         x = 0
         y = 0
         //Fill in texfield
@@ -222,7 +248,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
     }
     func fillSudoku(puzzle: [[Int]], row: Int, col: Int)->Int{
         if(ccount > 100000){
-            println("Impossible!")
+            #if DEBUG
+                println("Impossible!")
+            #endif
             myView.addSubview(label)
             label.hidden = false
             return 0
@@ -230,8 +258,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
         var i:Int
         ccount++
         tempp = puzzle
-       // println("row \(row)")
-       // println("col \(col)")
+
         if(row<9 && col<9){
             var ttx = tempp[row][col] as Int
             if(ttx != 0){
@@ -271,13 +298,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
                     }
                 }
             }
-           // println(tempp)
+            
             ds = tempp
             return 0
         }
         else{
-            println("here")
-            //println(tempp)
             return 1
         }
     }
@@ -334,9 +359,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        var torf: Bool = false
-        var newTextField: UITextField
-        if(textField.text == "" || string == ""){
+        
+        let numbers = "123456789"
+        if numbers.rangeOfString(string) != nil{
+    
+            var newTextField: UITextField?
+            
+            if(textField.text != "" && string != ""){
+                textField.text = ""
+            }
+            
+            
             var i = find(arrayOfTextFields, textField)
             var tempps = 0
             if(i > 71){
@@ -351,25 +384,20 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
             newTextField = arrayOfTextFields[tempps]
             textField.text = string
             textField.endEditing(true)
-            torf = true
+            
+            
+            if (newTextField == nil){
+                return true
+            }
+            else{
+                newTextField!.becomeFirstResponder()
+                return false
+            }
         }
         else{
             return false
         }
-        if(newTextField == ""){
-            return true
-        }
-        else{
-            newTextField.becomeFirstResponder()
-            return false
-        }
     }
-    func textFieldDidBeginEditing(textField: UITextField){
-        textField.text = ""
-    }
-//    optional func text(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange,replacementString string: String) -> Bool{
-//        println(textField.text)
-//    }
-    
+
 }
 
