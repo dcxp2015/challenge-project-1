@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var myView: UIView!
-    
     var arrayOfTextFields:[UITextField] = []
     var ccount = 0
     var ds:[[Int]] = [[]]
@@ -28,6 +27,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var swiftColor = UIColor(red: 0.71, green: 0.87, blue: 1, alpha: 1)
+        self.view.backgroundColor = swiftColor
         
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 2

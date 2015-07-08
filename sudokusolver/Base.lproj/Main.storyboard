@@ -7,7 +7,6 @@
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="sudokusolver" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
@@ -22,12 +21,13 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kPX-Q3-5Bo">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                        <color key="backgroundColor" red="0.83638120983368192" green="0.91379596357366388" blue="0.93880208333333337" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.83638120983368192" green="0.91379596357366388" blue="0.93880208333333337" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <variation key="heightClass=regular" fixedFrame="YES">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
                                         </variation>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.89411764705882357" blue="0.92156862745098034" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="kPX-Q3-5Bo"/>
@@ -58,6 +58,7 @@
                         <outlet property="scrollView" destination="nSy-hQ-OSh" id="wq9-AF-Xyp"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="313" y="63"/>
         </scene>
