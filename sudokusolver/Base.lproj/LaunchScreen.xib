@@ -17,7 +17,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="cooltext126125454070910.png" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-HH-4eO">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="CFText" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-HH-4eO">
                     <rect key="frame" x="83" y="87" width="314" height="64"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ToJ-HH-4eO" secondAttribute="height" multiplier="157:32" id="trV-Sd-mGr"/>
@@ -39,6 +39,6 @@
         </view>
     </objects>
     <resources>
-        <image name="cooltext126125454070910.png" width="403" height="72"/>
+        <image name="CFText" width="403" height="72"/>
     </resources>
 </document>

@@ -211,6 +211,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
                     textField.text="\(tempp[y][x])"
                     x++
                 }
+                
+                if textField.text == "0"{
+                    textField.text = ""
+                }
+                
             }
         }
         else{
