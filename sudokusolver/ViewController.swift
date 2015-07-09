@@ -105,7 +105,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
                 
                 myTextField.text = ""
                 myTextField.borderStyle = UITextBorderStyle.Line
-//                myTextField.keyboardType = UIKeyboardType.NumberPad
+                myTextField.keyboardType = UIKeyboardType.NumberPad
                 self.arrayOfTextFields.append(myTextField)
                 myView.addSubview(myTextField)
                 myTextField.delegate = self
@@ -400,6 +400,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegat
             }
         }
         else{
+            
+            textField.text = ""
             return false
         }
     }

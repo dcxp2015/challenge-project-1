@@ -17,7 +17,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="CFText" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-HH-4eO">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CFText" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-HH-4eO">
                     <rect key="frame" x="83" y="87" width="314" height="64"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ToJ-HH-4eO" secondAttribute="height" multiplier="157:32" id="trV-Sd-mGr"/>
@@ -30,6 +30,7 @@
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
                 <constraint firstAttribute="trailing" secondItem="ToJ-HH-4eO" secondAttribute="trailing" constant="83" id="VzT-gi-ob4"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
+                <constraint firstItem="ToJ-HH-4eO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="87" id="dos-dL-aN7"/>
                 <constraint firstAttribute="centerX" secondItem="ToJ-HH-4eO" secondAttribute="centerX" id="lJ9-Qa-eky"/>
                 <constraint firstItem="ToJ-HH-4eO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="83" id="vJP-cW-4Vn"/>
             </constraints>
@@ -39,6 +40,6 @@
         </view>
     </objects>
     <resources>
-        <image name="CFText" width="403" height="72"/>
+        <image name="CFText" width="360" height="72"/>
     </resources>
 </document>
